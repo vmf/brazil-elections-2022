@@ -1,0 +1,6 @@
+requests
+tqdm
+progressbar2
+py7zr
+psycopg2-binary
+more-itertools
