@@ -2,11 +2,14 @@ version: '3'
 
 services:
   database:
+    restart: always
     image: 'postgres:latest'
     ports:
       - "5432:5432"
-
     environment:
       POSTGRES_USER: brasil
       POSTGRES_PASSWORD: brasil2022
       POSTGRES_DB: default_database
+      PGDATA: /var/lib/postgresql/data
+    volumes:
+      - ../data/db-data:/var/lib/postgresql/data

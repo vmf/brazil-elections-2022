@@ -6,11 +6,10 @@ from extraction import voting_extractor
 import logging_wrapper
 
 
-def process_raw_files(base_path):
+def process_raw_files(base_path, conn):
     extractor = raw_extractor.Extractor()
     files = extractor.extract(base_path)
 
-    conn = database_connection.DatabaseConnection().connect()
     raw_data_dao = dao.RawDataDao()
 
     chunk_size = 1000
@@ -27,9 +26,7 @@ def process_raw_files(base_path):
         raw_data_dao.insert_processed(conn, file_name)
 
 
-def process_voting_file(base_path):
-    conn = database_connection.DatabaseConnection().connect()
-
+def process_voting_file(base_path, conn):
     voting_dao = dao.VotingDao()
     already_imported = voting_dao.already_imported(conn)
     if already_imported:
@@ -45,6 +42,13 @@ def process_voting_file(base_path):
 
 def process_files(base_path):
     logging_wrapper.info('Starting file processing', print_console=True)
-    process_raw_files(base_path)
-    process_voting_file(base_path)
+
+    db_conn = database_connection.DatabaseConnection()
+    db_conn.create_db_if_not_exists()
+
+    conn = db_conn.connect()
+
+    process_raw_files(base_path, conn)
+    process_voting_file(base_path, conn)
+
     logging_wrapper.info('Process finished', print_console=True)

@@ -38,16 +38,16 @@ CREATE TABLE IF NOT EXISTS votacao_secao_urna
     UNIQUE (cd_municipio, nr_zona, nr_secao, nr_local_votacao)
 );
 
-CREATE TABLE votacao_secao_cargo
+CREATE TABLE IF NOT EXISTS votacao_secao_cargo
 (
     id        INT PRIMARY KEY NOT NULL,
     descricao TEXT            NOT NULL
 );
 
 INSERT INTO votacao_secao_cargo (id, descricao)
-VALUES (1, 'PRESIDENTE');
+VALUES (1, 'PRESIDENTE') ON CONFLICT DO NOTHING;
 
-CREATE TABLE votacao_secao_candidato
+CREATE TABLE IF NOT EXISTS votacao_secao_candidato
 (
     id           INT PRIMARY KEY NOT NULL GENERATED ALWAYS AS IDENTITY,
     nr_votavel   INT             NOT NULL,
