@@ -3,12 +3,12 @@ import sys
 from retrievers import dataset
 import os
 from db import dataset_processor
-import logging
+import logging_wrapper
 
 
 class Brazil:
     def __init__(self):
-        logging.basicConfig(filename='log.txt', level=logging.INFO)
+        logging_wrapper.initialize()
 
         parser = argparse.ArgumentParser(
             description='The brazil 2022 elections tool',
@@ -16,7 +16,7 @@ class Brazil:
 
         The most commonly used git commands are:
            download-files             Downloads election data
-           process-files              Process th downloaded files and compile the results to the database 
+           process-files              Process the downloaded files and compile the results to the database 
         ''')
 
         parser.add_argument('command', help='Subcommand to run')
@@ -44,12 +44,11 @@ class Brazil:
             exit(1)
 
         if args.turn == "all":
-            dataset.download_1t_turn_raw_files(args.out)
-            dataset.download_2t_turn_raw_files(args.out)
+            dataset.download_all_files(args.out)
         elif args.turn == "1":
-            dataset.download_1t_turn_raw_files(args.out)
+            dataset.download_1t_files(args.out)
         elif args.turn == "2":
-            dataset.download_2t_turn_raw_files(args.out)
+            dataset.download_2t_files(args.out)
         else:
             sys.stderr.write(f"ERROR: invalid turn {args.turn}\n")
             exit(1)
@@ -59,7 +58,7 @@ class Brazil:
         parser = argparse.ArgumentParser(
             description='Process th downloaded files and compile the results to the database')
 
-        parser.add_argument("--path", default='data/download/machine_raw')
+        parser.add_argument("--path", default='.')
 
         args = parser.parse_args(sys.argv[2:])
 

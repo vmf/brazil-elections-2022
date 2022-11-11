@@ -1,5 +1,5 @@
 import io
-import logging
+import logging_wrapper
 import os
 import re
 from zipfile import ZipFile
@@ -37,27 +37,27 @@ class Extractor:
 
         machine_model_result = MACHINE_MODEL_PATTERN.search(dat_file_byte_arr)
         if not machine_model_result:
-            logging.error(f'Unable to find a match for the machine model in {file_name} file')
+            logging_wrapper.error(f'Unable to find a match for the machine model in {file_name} file')
             return
 
         city_result = CITY_PATTERN.search(dat_file_byte_arr)
         if not city_result:
-            logging.error(f'Unable to find a match for the city in {file_name} file')
+            logging_wrapper.error(f'Unable to find a match for the city in {file_name} file')
             return
 
         election_zone_result = ELECTION_ZONE_PATTERN.search(dat_file_byte_arr)
         if not election_zone_result:
-            logging.error(f'Unable to find a match for the election zone in {file_name} file')
+            logging_wrapper.error(f'Unable to find a match for the election zone in {file_name} file')
             return
 
         election_section_result = ELECTION_SECTION_PATTERN.search(dat_file_byte_arr)
         if not election_section_result:
-            logging.error(f'Unable to find a match for the election section in {file_name} file')
+            logging_wrapper.error(f'Unable to find a match for the election section in {file_name} file')
             return
 
         election_local_result = ELECTION_LOCAL_PATTERN.search(dat_file_byte_arr)
         if not election_local_result:
-            logging.error(f'Unable to find a match for the election local in {file_name} file')
+            logging_wrapper.error(f'Unable to find a match for the election local in {file_name} file')
             return
 
         return RawDataInfo(machine_model=self.extract_description_value(machine_model_result),
@@ -83,7 +83,7 @@ class Extractor:
                 if raw_data_info:
                     yield raw_data_info
             else:
-                logging.error(f'Unable to find log file {log_file_key}')
+                logging_wrapper.error(f'Unable to find log file {log_file_key}')
 
             if len(log_files) > 1:
                 jez_files = {k: v for k, v in log_files.items() if k.endswith('.jez')}
@@ -94,12 +94,12 @@ class Extractor:
 
     @staticmethod
     def extract_info_from_file(self, file_path, description):
-        logging.info(f"INFO: Opening zip file {file_path}")
+        logging_wrapper.info(f"Opening zip file {file_path}")
         with ZipFile(file_path) as zip_file:
             file_names = zip_file.namelist()
             logjez_files = list(filter(lambda name: name.endswith('logjez'), file_names))
             logjez_files_count = len(logjez_files)
-            logging.info(f"INFO: Found {logjez_files_count} logjez files")
+            logging_wrapper.info(f"Found {logjez_files_count} logjez files")
 
             widgets = [
                 description, ' ',
@@ -120,20 +120,21 @@ class Extractor:
                             for raw_data_info in raw_data_info_list:
                                 yield raw_data_info
                         else:
-                            logging.error(f'Unable to extract raw data from file {file_name}')
+                            logging_wrapper.error(f'Unable to extract raw data from file {file_name}')
                     except:
-                        logging.error(f'An error occurred when extracting data from file {file_name}')
+                        logging_wrapper.error(f'An error occurred when extracting data from file {file_name}')
 
                     count += 1
                     bar.update(count)
 
     def extract(self, base_path):
-        dir_list = os.listdir(base_path)
+        base_path_final = os.path.join(base_path, 'data/download/machine_raw')
+        dir_list = os.listdir(base_path_final)
         dir_list_count = len(dir_list)
         count = 0
 
         for file in enumerate(dir_list):
-            file_path = os.path.join(base_path, file[1])
+            file_path = os.path.join(base_path_final, file[1])
             count += 1
             description = f'[{count} of {dir_list_count}] <{file[1]}>'
-            yield self.extract_info_from_file(self, file_path, description)
+            yield file[1], self.extract_info_from_file(self, file_path, description)
