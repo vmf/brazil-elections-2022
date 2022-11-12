@@ -1,8 +1,8 @@
 # Eleições do Brasil 2022
 
-Olá Brasileiros! Possuímos um sistema eleitoral eletrônico implantando através da urnas eletrônicas. Nos últimos tempos muitas dúvidas surgiram desrespeito à integridade destas urnas/máquinas. A eleição presidencial de 2022 foi sem dúvida uma das eleições mais acirradas jã vistas. Por conta disso, qualquer "anomalia" presente nas máquinas pode decidir o resultado das eleições.
+Olá Brasileiros! Possuímos um sistema eleitoral eletrônico implantando através da urnas eletrônicas. Nos últimos tempos muitas dúvidas surgiram referente à integridade destas urnas/máquinas. A eleição presidencial de 2022 foi sem dúvida uma das eleições mais acirradas já vistas. Por conta disso, qualquer "anomalia" presente nas máquinas pode decidir o resultado das eleições.
 
-Este projeto visa trazer as ferramentas e os dados necessários para a análise da eleição presidencial de 2022. Após a configuração do projeto, você terá todos os dados de votação e urna compilado. Com a ajuda do [Metabase BI](https://www.metabase.com/) conseguirá utilizar das pesquisas já criadas como também criar as suas próprias pesquisas.
+Este projeto visa trazer as ferramentas e os dados necessários para a análise da eleição presidencial de 2022. Após a configuração do projeto, você terá todos os dados de votação e urna compilado. Com a ajuda do [Metabase BI](https://www.metabase.com/) você conseguirá se utilizar das pesquisas já criadas como também criar as suas próprias pesquisas.
 
 ## Como executar o projeto
 ### Opção 1(Utiliza dados já compilados):
