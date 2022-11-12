@@ -10,6 +10,8 @@ Este projeto visa trazer as ferramentas e os dados necessários para a análise 
 - docker
 - docker-compose
 
+Para prosseguir, faça o download das bases de dados [aqui](https://drive.google.com/file/d/1AqipLzK26KJoIxGrqtUTwFhtZJrdlLx-/view?usp=sharing). Após isso, descompacte o arquivo .zip para continuar com o processo. 
+
 1 - Execute o docker-compose para iniciar os serviços:
 ```
 docker-compose -f compose/docker-compose-full.yml up &
